@@ -8,16 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SistemaVenta.DAL;
+using SistemaVenta.DAL.Repositorios;
+using SistemaVenta.DAL.Repositorios.Contrato;
+
 namespace SistemaVenta.IOC
 {
     public static class Dependencia
     {
-        public static void InyectarDependencias(this IServiceCollection services, IConfiguration configuration ) 
+        public static void InyectarDependencias(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DbventaContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("cadenaSQL"));
             });
+
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<VentaRepository, VentaRepository>();
+
+
         }
     }
 }
