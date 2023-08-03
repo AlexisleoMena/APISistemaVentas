@@ -65,7 +65,7 @@ namespace SistemaVenta.BLL.Servicios
 
                 bool respuesta = await _usuarioRepositorio.Editar(usuarioEncontrado);
 
-                if (respuesta)
+                if (!respuesta)
                     throw new TaskCanceledException("No se pudo editar");
 
                 return respuesta;
@@ -87,7 +87,7 @@ namespace SistemaVenta.BLL.Servicios
 
                 bool respuesta = await _usuarioRepositorio.Eliminar(usuarioEncontrado);
 
-                if (respuesta)
+                if (!respuesta)
                     throw new TaskCanceledException("No se pudo eliminar");
 
                 return respuesta;

@@ -30,7 +30,7 @@ namespace SistemaVenta.Utility
                     opt => opt.MapFrom(origen => origen.IdRolNavigation.Nombre)
                 )
                 .ForMember(
-                    destino => destino.RolDescripcion,
+                    destino => destino.EsActivo,
                     opt => opt.MapFrom(origen => origen.EsActivo == true ? 1 : 0)
                 );
 
