@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.API.Utilidad;
 using SistemaVenta.BLL.Servicios;
@@ -8,6 +9,7 @@ using SistemaVenta.DTO;
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Empleado,Supervisor")]
     [ApiController]
     public class VentaController : ControllerBase
     {
@@ -61,6 +63,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Supervisor")]
         [Route("Reporte")]
         public async Task<IActionResult> Reporte(string? fechaInicio, string? fechaFin)
         {

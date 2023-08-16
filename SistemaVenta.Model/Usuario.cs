@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace SistemaVenta.Model;
 
@@ -20,4 +21,14 @@ public partial class Usuario
     public DateTime? FechaRegistro { get; set; }
 
     public virtual Rol? IdRolNavigation { get; set; }
+
+    public void SetClave(string clave)
+    {
+        Clave = BCryptNet.HashPassword(clave);
+    }
+
+    public bool VerificarClave(string clave)
+    {
+        return BCryptNet.Verify(clave, Clave);
+    }
 }

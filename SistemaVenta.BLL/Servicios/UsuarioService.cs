@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DAL.Repositorios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.Model;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SistemaVenta.BLL.Servicios
 {
@@ -27,7 +32,10 @@ namespace SistemaVenta.BLL.Servicios
         {
             try
             {
-                var usuarioCreado = await _usuarioRepositorio.Crear(_mapper.Map<Usuario>(modelo));
+                var modeloMapeado = _mapper.Map<Usuario>(modelo);
+                modeloMapeado.SetClave(modelo.Clave!);
+
+                var usuarioCreado = await _usuarioRepositorio.Crear(modeloMapeado);
 
                 if (usuarioCreado.IdUsuario == 0)
                     throw new TaskCanceledException("No se pudo crear");
@@ -39,9 +47,9 @@ namespace SistemaVenta.BLL.Servicios
 
                 return _mapper.Map<UsuarioDTO>(usuarioCreado);
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw new Exception($"Error al crear el usuario: {ex.Message}");
             }
         }
 
@@ -60,8 +68,8 @@ namespace SistemaVenta.BLL.Servicios
                 usuarioEncontrado.NombreCompleto = usuarioModelo.NombreCompleto;
                 usuarioEncontrado.Correo = usuarioModelo.Correo;
                 usuarioEncontrado.IdRol = usuarioModelo.IdRol;
-                usuarioEncontrado.Clave = usuarioModelo.Clave;
                 usuarioEncontrado.EsActivo = usuarioModelo.EsActivo;
+                usuarioEncontrado.SetClave(usuarioModelo.Clave!);
 
                 bool respuesta = await _usuarioRepositorio.Editar(usuarioEncontrado);
 
@@ -117,21 +125,21 @@ namespace SistemaVenta.BLL.Servicios
         {
             try
             {
-                var queryUsuario = await _usuarioRepositorio.Consultar(
-                    u => u.Correo == correo && u.Clave == clave
-                );
+                var queryUsuarios = await _usuarioRepositorio.Consultar(u => u.Correo == correo);
+                var usuarios = await queryUsuarios.Include(u => u.IdRolNavigation).ToListAsync();
 
-                if (queryUsuario.FirstOrDefault() == null)
-                    throw new TaskCanceledException("El usuario no existe");
+                var usuario = usuarios.FirstOrDefault(u => u.VerificarClave(clave));
 
-                Usuario devolverUsuario = queryUsuario.Include(rol => rol.IdRolNavigation).First();
+                if (usuario == null)
+                    throw new TaskCanceledException("El usuario no existe o la contraseña es incorrecta");
 
-                return _mapper.Map<SesionDTO>(devolverUsuario);
+                return _mapper.Map<SesionDTO>(usuario);
             }
             catch
             {
                 throw;
             }
         }
+        
     }
 }

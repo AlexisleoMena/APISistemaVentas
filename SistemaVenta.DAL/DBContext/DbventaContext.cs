@@ -35,12 +35,11 @@ public partial class DbventaContext : DbContext
     public virtual DbSet<Venta> Venta { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Categoria>(entity =>
         {
-            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__8A3D240C898A05F8");
+            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__8A3D240C7C97A928");
 
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
             entity.Property(e => e.EsActivo)
@@ -58,7 +57,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<DetalleVenta>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__BFE2843F1284C508");
+            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__BFE2843F328DCCEC");
 
             entity.Property(e => e.IdDetalleVenta).HasColumnName("idDetalleVenta");
             entity.Property(e => e.Cantidad).HasColumnName("cantidad");
@@ -82,7 +81,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<Menu>(entity =>
         {
-            entity.HasKey(e => e.IdMenu).HasName("PK__Menu__C26AF4832B426986");
+            entity.HasKey(e => e.IdMenu).HasName("PK__Menu__C26AF483573215C0");
 
             entity.ToTable("Menu");
 
@@ -103,7 +102,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<MenuRol>(entity =>
         {
-            entity.HasKey(e => e.IdMenuRol).HasName("PK__MenuRol__9D6D61A493A49874");
+            entity.HasKey(e => e.IdMenuRol).HasName("PK__MenuRol__9D6D61A48F376C97");
 
             entity.ToTable("MenuRol");
 
@@ -122,7 +121,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<NumeroDocumento>(entity =>
         {
-            entity.HasKey(e => e.IdNumeroDocumento).HasName("PK__NumeroDo__471E421A1798AD16");
+            entity.HasKey(e => e.IdNumeroDocumento).HasName("PK__NumeroDo__471E421A59C4066A");
 
             entity.ToTable("NumeroDocumento");
 
@@ -136,7 +135,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<Producto>(entity =>
         {
-            entity.HasKey(e => e.IdProducto).HasName("PK__Producto__07F4A132A2C65BB2");
+            entity.HasKey(e => e.IdProducto).HasName("PK__Producto__07F4A1324FDE8F99");
 
             entity.ToTable("Producto");
 
@@ -165,7 +164,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.IdRol).HasName("PK__Rol__3C872F76B0A134E8");
+            entity.HasKey(e => e.IdRol).HasName("PK__Rol__3C872F767D8E2F20");
 
             entity.ToTable("Rol");
 
@@ -182,13 +181,13 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A61F74D82E");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A6BC1480C9");
 
             entity.ToTable("Usuario");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Clave)
-                .HasMaxLength(40)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("clave");
             entity.Property(e => e.Correo)
@@ -215,7 +214,7 @@ public partial class DbventaContext : DbContext
 
         modelBuilder.Entity<Venta>(entity =>
         {
-            entity.HasKey(e => e.IdVenta).HasName("PK__Venta__077D56145FE386CF");
+            entity.HasKey(e => e.IdVenta).HasName("PK__Venta__077D561422BFF74D");
 
             entity.Property(e => e.IdVenta).HasColumnName("idVenta");
             entity.Property(e => e.FechaRegistro)

@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using SistemaVenta.DAL;
 using SistemaVenta.DAL.Repositorios;
 using SistemaVenta.DAL.Repositorios.Contrato;
 

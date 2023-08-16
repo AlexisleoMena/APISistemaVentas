@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using SistemaVenta.IOC;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,29 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.InyectarDependencias(builder.Configuration);
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!)
+                ),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Administrador"));
+    options.AddPolicy("Empleado", policy => policy.RequireRole("Empleado"));
+    options.AddPolicy("Supervisor", policy => policy.RequireRole("Supervisor"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -33,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("NuevaPolitica");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
