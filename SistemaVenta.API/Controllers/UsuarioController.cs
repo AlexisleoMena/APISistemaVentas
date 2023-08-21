@@ -162,7 +162,7 @@ namespace SistemaVenta.API.Controllers
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(10),
+                expires: DateTime.Now.AddHours(10),
                 signingCredentials: creds
             );
             string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
