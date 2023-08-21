@@ -69,7 +69,7 @@ namespace SistemaVenta.BLL.Servicios
                 usuarioEncontrado.Correo = usuarioModelo.Correo;
                 usuarioEncontrado.IdRol = usuarioModelo.IdRol;
                 usuarioEncontrado.EsActivo = usuarioModelo.EsActivo;
-                usuarioEncontrado.SetClave(usuarioModelo.Clave!);
+                //usuarioEncontrado.SetClave(usuarioModelo.Clave!);
 
                 bool respuesta = await _usuarioRepositorio.Editar(usuarioEncontrado);
 

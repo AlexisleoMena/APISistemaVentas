@@ -9,7 +9,7 @@ using SistemaVenta.DTO;
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin,Empleado,Supervisor")]
+    [Authorize(Roles = "Administrador,Supervisor,Empleado")]
     [ApiController]
     public class MenuController : ControllerBase
     {

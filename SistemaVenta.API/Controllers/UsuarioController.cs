@@ -128,6 +128,28 @@ namespace SistemaVenta.API.Controllers
             return Ok(rsp);
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("VerificarToken")]
+        public IActionResult VerificarToken(SesionDTO user)
+        {
+            var rsp = new Response<SesionDTO>();
+
+            try
+            {
+                rsp.Status = true;
+                string token = GenerateToken(user);
+                user.Token = token;
+                rsp.Value = user;
+            }
+            catch (Exception ex)
+            {
+                rsp.Status = false;
+                rsp.Message = ex.Message;
+            }
+            return Ok(rsp);
+        }
+
         private string GenerateToken(SesionDTO user)
         {
 
@@ -140,7 +162,7 @@ namespace SistemaVenta.API.Controllers
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60),
+                expires: DateTime.Now.AddSeconds(10),
                 signingCredentials: creds
             );
             string token = new JwtSecurityTokenHandler().WriteToken(securityToken);

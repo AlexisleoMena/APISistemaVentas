@@ -9,7 +9,6 @@ using SistemaVenta.DTO;
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin,Empleado,Supervisor")]
     [ApiController]
     public class VentaController : ControllerBase
     {
@@ -21,6 +20,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador,Empleado,Supervisor")]
         [Route("Registrar")]
         public async Task<IActionResult> Registrar([FromBody] VentaDTO venta)
         {
@@ -40,6 +40,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Empleado,Supervisor")]
         [Route("Historial")]
         public async Task<IActionResult> Historial(string buscarPor, string? numeroVenta, string? fechaInicio, string? fechaFin)
         {
@@ -63,7 +64,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Supervisor")]
+        [Authorize(Roles = "Administrador,Supervisor")]
         [Route("Reporte")]
         public async Task<IActionResult> Reporte(string? fechaInicio, string? fechaFin)
         {

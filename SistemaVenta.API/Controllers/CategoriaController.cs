@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin,Empleado,Supervisor")]
+    [Authorize(Roles = "Administrador,Empleado,Supervisor")]
     [ApiController]
     public class CategoriaController : ControllerBase
     {

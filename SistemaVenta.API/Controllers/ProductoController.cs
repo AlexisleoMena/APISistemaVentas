@@ -9,7 +9,6 @@ using SistemaVenta.DTO;
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin,Supervisor")]
     [ApiController]
     public class ProductoController : ControllerBase
     {
@@ -21,6 +20,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Supervisor,Empleado")]
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
@@ -39,6 +39,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador,Supervisor")]
         [Route("Guardar")]
         public async Task<IActionResult> Guardar([FromBody] ProductoDTO producto)
         {
@@ -58,6 +59,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador,Supervisor")]
         [Route("Editar")]
         public async Task<IActionResult> Editar([FromBody] ProductoDTO producto)
         {
@@ -77,6 +79,7 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrador,Supervisor")]
         [Route("Eliminar/{id:int}")]
         public async Task<IActionResult> Eliminar(int id)
         {

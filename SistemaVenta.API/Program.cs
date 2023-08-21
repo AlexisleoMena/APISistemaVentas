@@ -34,8 +34,8 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Administrador"));
-    options.AddPolicy("Empleado", policy => policy.RequireRole("Empleado"));
-    options.AddPolicy("Supervisor", policy => policy.RequireRole("Supervisor"));
+    options.AddPolicy("Emp", policy => policy.RequireRole("Empleado"));
+    options.AddPolicy("Sup", policy => policy.RequireRole("Supervisor"));
 });
 
 builder.Services.AddCors(options =>
